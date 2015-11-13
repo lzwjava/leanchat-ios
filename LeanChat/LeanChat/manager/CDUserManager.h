@@ -42,4 +42,6 @@
 
 - (void)reportAbuseWithReason:(NSString *)reason convid:(NSString *)convid block:(AVBooleanResultBlock)block;
 
+- (void)fetchSystemUsersWithBlock:(AVArrayResultBlock)block;
+
 @end

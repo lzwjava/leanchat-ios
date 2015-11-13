@@ -9,7 +9,7 @@
 #import "CDBaseVC.h"
 #import "CDTextField.h"
 #import "CDResizableButton.h"
-#import <AVOSCloud/AVOSCloud.h>
+#import "CDCommon.h"
 #import "CDEntryBaseVC.h"
 #import "CDCommon.h"
 

@@ -11,8 +11,12 @@
 #define CONV_TYPE @"type"
 
 typedef enum : NSUInteger {
+    /// 单聊对话
     CDConvTypeSingle = 0,
-    CDConvTypeGroup,
+    /// 群聊对话
+    CDConvTypeGroup = 1,
+    /// 系统对话
+    CDConvTypeSystem = 2
 } CDConvType;
 
 @interface AVIMConversation (Custom)
@@ -53,6 +57,11 @@ typedef enum : NSUInteger {
  *  对话的标题。如 兴趣群(30)
  */
 - (NSString *)title;
+
+/**
+ *  系统对话关联的 UserId。为 members 第一个
+ */
+- (NSString *)systemUserId;
 
 
 /**

@@ -49,6 +49,8 @@
 		703604AD1B7DB84D0044C81A /* tusijia8.gif in Resources */ = {isa = PBXBuildFile; fileRef = 703604861B7DB84D0044C81A /* tusijia8.gif */; };
 		703604AE1B7DB84D0044C81A /* tusijia9.gif in Resources */ = {isa = PBXBuildFile; fileRef = 703604871B7DB84D0044C81A /* tusijia9.gif */; };
 		703B392E1B74890100E649DC /* CDSNSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B392D1B74890100E649DC /* CDSNSView.m */; };
+		704F8DF71BF5EB2F007CB560 /* system_conv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 704F8DF61BF5EB2F007CB560 /* system_conv@2x.png */; };
+		704F8DFA1BF6003A007CB560 /* CDSystemUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 704F8DF91BF6003A007CB560 /* CDSystemUser.m */; };
 		7073FC1D1B147048006F2692 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073FC1C1B147048006F2692 /* main.m */; };
 		7073FC281B147048006F2692 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7073FC271B147048006F2692 /* Images.xcassets */; };
 		7073FCA91B14718C006F2692 /* CDBaseNavC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073FC431B14718C006F2692 /* CDBaseNavC.m */; };
@@ -194,6 +196,9 @@
 		703604871B7DB84D0044C81A /* tusijia9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tusijia9.gif; sourceTree = "<group>"; };
 		703B392C1B74890100E649DC /* CDSNSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSNSView.h; sourceTree = "<group>"; };
 		703B392D1B74890100E649DC /* CDSNSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSNSView.m; sourceTree = "<group>"; };
+		704F8DF61BF5EB2F007CB560 /* system_conv@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "system_conv@2x.png"; sourceTree = "<group>"; };
+		704F8DF81BF6003A007CB560 /* CDSystemUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSystemUser.h; sourceTree = "<group>"; };
+		704F8DF91BF6003A007CB560 /* CDSystemUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSystemUser.m; sourceTree = "<group>"; };
 		7073FC171B147048006F2692 /* LeanChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeanChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7073FC1B1B147048006F2692 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7073FC1C1B147048006F2692 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -599,6 +604,8 @@
 		7073FC791B14718C006F2692 /* avobject */ = {
 			isa = PBXGroup;
 			children = (
+				704F8DF81BF6003A007CB560 /* CDSystemUser.h */,
+				704F8DF91BF6003A007CB560 /* CDSystemUser.m */,
 				7073FC7A1B14718C006F2692 /* CDAbuseReport.h */,
 				7073FC7B1B14718C006F2692 /* CDAbuseReport.m */,
 				7073FC7C1B14718C006F2692 /* CDAddRequest.h */,
@@ -652,6 +659,7 @@
 				7073FCDF1B147458006F2692 /* AppIcon60x60@2x.png */,
 				70EB815A1B43CC6A0010659C /* contact_face_group_icon@2x.png */,
 				70EB815C1B43CEBD0010659C /* contact_IconAdd@2x.png */,
+				704F8DF61BF5EB2F007CB560 /* system_conv@2x.png */,
 				7073FCE71B147458006F2692 /* group_icon@2x.png */,
 				7073FCE81B147458006F2692 /* Icon@2x.png */,
 				7073FCE91B147458006F2692 /* image_placeholder@2x.png */,
@@ -862,6 +870,7 @@
 				70FA59B51B696173000286D5 /* sns_weibo@2x.png in Resources */,
 				7036048F1B7DB84D0044C81A /* rabbit_15.gif in Resources */,
 				7073FD321B147458006F2692 /* tabbar_chat_active@2x.png in Resources */,
+				704F8DF71BF5EB2F007CB560 /* system_conv@2x.png in Resources */,
 				7073FD251B147458006F2692 /* ok_selected@2x.png in Resources */,
 				703604921B7DB84D0044C81A /* rabbit_18.gif in Resources */,
 				703604951B7DB84D0044C81A /* rabbit_20.gif in Resources */,
@@ -984,6 +993,7 @@
 				7073FCAD1B14718C006F2692 /* CDWebViewVC.m in Sources */,
 				7073FCD21B14718C006F2692 /* CDLabelButtonTableCell.m in Sources */,
 				70DC7DB41B2F531F0047B7AB /* CDUserManager.m in Sources */,
+				704F8DFA1BF6003A007CB560 /* CDSystemUser.m in Sources */,
 				7073FCB81B14718C006F2692 /* CDLoginVC.m in Sources */,
 				7073FCAB1B14718C006F2692 /* CDBaseTableVC.m in Sources */,
 				7073FCD81B14718C006F2692 /* CDTextField.m in Sources */,

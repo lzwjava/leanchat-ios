@@ -17,6 +17,7 @@
 #import "CDUtils.h"
 #import "CDUserManager.h"
 #import "CDIMService.h"
+#import "CDSystemUser.h"
 
 static NSString *kCellImageKey = @"image";
 static NSString *kCellBadgeKey = @"badge";
@@ -27,6 +28,7 @@ static NSString *kCellSelectorKey = @"selector";
 
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *headerSectionDatas;
+@property (nonatomic, strong) NSArray *systemUsers;
 
 @end
 
@@ -91,7 +93,7 @@ static NSString *kCellSelectorKey = @"selector";
     [self refresh:nil];
 }
 
-- (void)refreshWithFriends:(NSArray *)friends badgeNumber:(NSInteger)number{
+- (void)refreshWithFriends:(NSArray *)friends systemUsers:(NSArray *)systemUsers badgeNumber:(NSInteger)number{
     if (number > 0) {
         self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld", number];;
     } else {
@@ -102,22 +104,25 @@ static NSString *kCellSelectorKey = @"selector";
     [self.headerSectionDatas addObject:@{ kCellImageKey:[UIImage imageNamed:@"new_friends_icon"], kCellTextKey:@"新的朋友",kCellBadgeKey:@(number), kCellSelectorKey:NSStringFromSelector(@selector(goNewFriend:))}];
     [self.headerSectionDatas addObject:@{ kCellImageKey:[UIImage imageNamed:@"group_icon"], kCellTextKey:@"群组" , kCellSelectorKey:NSStringFromSelector(@selector(goGroup:))}];
     
+    self.systemUsers = systemUsers;
     self.dataSource = [friends mutableCopy];
     [self.tableView reloadData];
 }
 
-- (void)findFriendsAndBadgeNumberWithBlock:(void (^)(NSArray *friends, NSInteger badgeNumber, NSError *error))block {
+- (void)findFriendsAndBadgeNumberWithBlock:(void (^)(NSArray *friends, NSArray *systemUsers, NSInteger badgeNumber, NSError *error))block {
     [[CDUserManager manager] findFriendsWithBlock : ^(NSArray *objects, NSError *error) {
         // why kAVErrorInternalServer ?
         if (error && error.code != kAVErrorCacheMiss && error.code == kAVErrorInternalServer) {
             // for the first start
-            block(nil, 0, error) ;
+            block(nil, nil, 0, error) ;
         } else {
             if (objects == nil) {
                 objects = [NSMutableArray array];
             }
             [self countNewAddRequestBadge:^(NSInteger number, NSError *error) {
-                block (objects, number, nil);
+                [[CDUserManager manager] fetchSystemUsersWithBlock:^(NSArray *systemUsers, NSError *error) {
+                    block (objects,systemUsers, number, nil);
+                }];
             }];
         };
     }];
@@ -125,11 +130,11 @@ static NSString *kCellSelectorKey = @"selector";
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [self showProgress];
-    [self findFriendsAndBadgeNumberWithBlock:^(NSArray *friends, NSInteger badgeNumber, NSError *error) {
+    [self findFriendsAndBadgeNumberWithBlock:^(NSArray *friends, NSArray *systemUsers, NSInteger badgeNumber, NSError *error) {
         [self hideProgress];
         [CDUtils stopRefreshControl:refreshControl];
         if ([self filterError:error]) {
-            [self refreshWithFriends:friends badgeNumber:badgeNumber];
+            [self refreshWithFriends:friends systemUsers:systemUsers badgeNumber:badgeNumber];
         }
     }];
 }
@@ -147,23 +152,27 @@ static NSString *kCellSelectorKey = @"selector";
 #pragma mark - Table view data delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.headerSectionDatas.count;
-    } else {
-        return self.dataSource.count;
+    switch (section) {
+        case 0:
+            return self.headerSectionDatas.count;
+        case 1:
+            return self.systemUsers.count;
+        case 2:
+            return self.dataSource.count;
     }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @[@"", @""][section];
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return [@[@0, @14][section] intValue];
+    return [@[@0, @14, @0][section] intValue];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -174,37 +183,57 @@ static NSString *kCellSelectorKey = @"selector";
     if (badgeView) {
         [badgeView removeFromSuperview];
     }
-    if (indexPath.section == 0) {
-        NSDictionary *cellDatas = self.headerSectionDatas[indexPath.row];
-        [cell.myImageView setImage:cellDatas[kCellImageKey]];
-        cell.myLabel.text = cellDatas[kCellTextKey];
-        NSInteger badgeNumber = [cellDatas[kCellBadgeKey] intValue];
-        if (badgeNumber > 0) {
-            badgeView = [[JSBadgeView alloc] initWithParentView:cell.myImageView alignment:JSBadgeViewAlignmentTopRight];
-            badgeView.tag = kBadgeViewTag;
-            badgeView.badgeText = [NSString stringWithFormat:@"%ld", badgeNumber];
+    switch (indexPath.section) {
+        case 0: {
+            NSDictionary *cellDatas = self.headerSectionDatas[indexPath.row];
+            [cell.myImageView setImage:cellDatas[kCellImageKey]];
+            cell.myLabel.text = cellDatas[kCellTextKey];
+            NSInteger badgeNumber = [cellDatas[kCellBadgeKey] intValue];
+            if (badgeNumber > 0) {
+                badgeView = [[JSBadgeView alloc] initWithParentView:cell.myImageView alignment:JSBadgeViewAlignmentTopRight];
+                badgeView.tag = kBadgeViewTag;
+                badgeView.badgeText = [NSString stringWithFormat:@"%ld", badgeNumber];
+            }
+            break;
         }
-    } else {
-        AVUser *user = [self.dataSource objectAtIndex:indexPath.row];
-        [[CDUserManager manager] displayAvatarOfUser:user avatarView:cell.myImageView];
-        cell.myLabel.text = user.username;
+        case 1: {
+            CDSystemUser *systemUser = self.systemUsers[indexPath.row];
+            [[CDUserManager manager] displayAvatarOfUser:systemUser.user avatarView:cell.myImageView];
+            cell.myLabel.text = systemUser.user.username;
+            break;
+        }
+        case 2: {
+            AVUser *user = [self.dataSource objectAtIndex:indexPath.row];
+            [[CDUserManager manager] displayAvatarOfUser:user avatarView:cell.myImageView];
+            cell.myLabel.text = user.username;
+            break;
+        }
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        SEL selector = NSSelectorFromString(self.headerSectionDatas[indexPath.row][kCellSelectorKey]);
-        [self performSelector:selector withObject:nil afterDelay:0];
-    } else {
-        AVUser *user = [self.dataSource objectAtIndex:indexPath.row];
-        [[CDIMService service] goWithUserId:user.objectId fromVC:self];
+    switch (indexPath.section) {
+        case 0: {
+            SEL selector = NSSelectorFromString(self.headerSectionDatas[indexPath.row][kCellSelectorKey]);
+            [self performSelector:selector withObject:nil afterDelay:0];
+            break;
+        }
+        case 1: {
+            [self goSystemConversatoinAtIndex:indexPath.row];
+            break;
+        }
+        case 2: {
+            AVUser *user = [self.dataSource objectAtIndex:indexPath.row];
+            [[CDIMService service] goWithUserId:user.objectId fromVC:self];
+            break;
+        }
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    return indexPath.section == 2;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -226,6 +255,15 @@ static NSString *kCellSelectorKey = @"selector";
             }
         }];
     }
+}
+
+#pragma mark - System Conversation
+
+- (void)goSystemConversatoinAtIndex:(NSInteger)index {
+    CDSystemUser *systemUser = self.systemUsers[index];
+    [[CDChatManager manager] fecthConvWithConvid:systemUser.convid callback:^(AVIMConversation *conversation, NSError *error) {
+        [[CDIMService service] goWithConv:conversation fromNav:self.navigationController];
+    }];
 }
 
 @end

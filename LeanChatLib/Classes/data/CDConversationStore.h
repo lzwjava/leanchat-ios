@@ -29,7 +29,7 @@
  *  插入一条最近对话
  *  @param conversation
  */
-- (void )insertConversation:(AVIMConversation *)conversation;
+- (BOOL)insertConversation:(AVIMConversation *)conversation;
 
 /**
  *  清空未读数

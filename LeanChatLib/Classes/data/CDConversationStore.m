@@ -121,14 +121,17 @@
     }];
 }
 
-- (void )insertConversation:(AVIMConversation *)conversation {
-    if (conversation.creator == nil) {
-        return;
+- (BOOL)insertConversation:(AVIMConversation *)conversation {
+    if (conversation.createAt == nil) {
+        DLog(@"insert conversation failed because createAt is nil, the conversion is invalid.");
+        return NO;
     }
+    BOOL __block result;
     [self.databaseQueue inDatabase:^(FMDatabase *db) {
         NSData *data = [self dataFromConversation:conversation];
-        [db executeUpdate:kCDConversationTableInsertSQL withArgumentsInArray:@[conversation.conversationId, data, @0, @(NO)]];
+        result = [db executeUpdate:kCDConversationTableInsertSQL withArgumentsInArray:@[conversation.conversationId, data, @0, @(NO)]];
     }];
+    return result;
 }
 
 - (BOOL)isConversationExists:(AVIMConversation *)conversation {

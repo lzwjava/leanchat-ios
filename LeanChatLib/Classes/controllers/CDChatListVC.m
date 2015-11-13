@@ -178,14 +178,24 @@ static NSString *cellIdentifier = @"ContactCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     LZConversationCell *cell = [LZConversationCell dequeueOrCreateCellByTableView:tableView];
     AVIMConversation *conversation = [self.conversations objectAtIndex:indexPath.row];
-    if (conversation.type == CDConvTypeSingle) {
-        id <CDUserModel> user = [[CDChatManager manager].userDelegate getUserById:conversation.otherId];
-        cell.nameLabel.text = user.username;
-        [cell.avatarImageView setImageWithURL:[NSURL URLWithString:user.avatarUrl]];
-    }
-    else {
-        [cell.avatarImageView setImage:conversation.icon];
-        cell.nameLabel.text = conversation.displayName;
+    switch (conversation.type) {
+        case CDConvTypeSingle: {
+            id <CDUserModel> user = [[CDChatManager manager].userDelegate getUserById:conversation.otherId];
+            cell.nameLabel.text = user.username;
+            [cell.avatarImageView setImageWithURL:[NSURL URLWithString:user.avatarUrl]];
+            break;
+        }
+        case CDConvTypeGroup: {
+            [cell.avatarImageView setImage:conversation.icon];
+            cell.nameLabel.text = conversation.displayName;
+            break;
+        }
+        case CDConvTypeSystem: {
+            id <CDUserModel> user = [[CDChatManager manager].userDelegate getUserById:conversation.members[0]];
+            cell.nameLabel.text = user.username;
+            [cell.avatarImageView setImageWithURL:[NSURL URLWithString:user.avatarUrl]];
+            break;
+        }
     }
     if (conversation.lastMessage) {
         cell.messageTextLabel.attributedText = [[CDMessageHelper helper] attributedStringWithMessage:conversation.lastMessage conversation:conversation];

@@ -12,6 +12,7 @@
 #import "CDAbuseReport.h"
 #import "UIImage+Icon.h"
 #import <AVUser+SNS.h>
+#import "CDSystemUser.h"
 
 static UIImage *defaultAvatar;
 
@@ -357,6 +358,25 @@ static CDUserManager *userManager;
     report.convid = convid;
     report.author = [AVUser currentUser];
     [report saveInBackgroundWithBlock:block];
+}
+
+#pragma mark - System User 
+- (void)fetchSystemUsersWithBlock:(AVArrayResultBlock)block {
+    AVQuery *query = [CDSystemUser query];
+    query.cachePolicy = kAVCachePolicyNetworkElseCache;
+    [query includeKey:kCDSystemUserKeyUser];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            objects = [NSMutableArray array];
+        } else {
+            NSMutableArray *users = [NSMutableArray array];
+            for (CDSystemUser *sysUser in objects) {
+                [users addObject:sysUser.user];
+            }
+            [[CDCacheManager manager] registerUsers:users];
+        }
+        block(objects, error);
+    }];
 }
 
 @end

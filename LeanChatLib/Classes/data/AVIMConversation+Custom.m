@@ -37,8 +37,19 @@
     objc_setAssociatedObject(self, @selector(mentioned), @(mentioned), OBJC_ASSOCIATION_ASSIGN);
 }
 
+// Please check hasValidType before call it.
 - (CDConvType)type {
     return [[self.attributes objectForKey:CONV_TYPE] intValue];
+}
+
+- (BOOL)hasValidType {
+    if (self.attributes[CONV_TYPE]) {
+        CDConvType type = self.type;
+        return type == CDConvTypeSingle || type == CDConvTypeGroup || type == CDConvTypeSystem;
+    } else {
+        DLog(@"converstion %@'s attributes has no type value", self.conversationId);
+    }
+    return NO;
 }
 
 + (NSString *)nameOfUserIds:(NSArray *)userIds {
@@ -50,21 +61,38 @@
     return [names componentsJoinedByString:@","];
 }
 
+/// 用在列表 Cell 显示
 - (NSString *)displayName {
-    if ([self type] == CDConvTypeSingle) {
-        NSString *otherId = [self otherId];
-        id <CDUserModel> other = [[CDChatManager manager].userDelegate getUserById:otherId];
-        return other.username;
-    }
-    else {
-        return self.name;
+    if ([self hasValidType]) {
+        switch (self.type) {
+            case CDConvTypeSingle:
+                if (self.members.count == 2) {
+                    NSString *otherId = [self otherId];
+                    id <CDUserModel> other = [[CDChatManager manager].userDelegate getUserById:otherId];
+                    return other.username;
+                } else {
+                    return @"对话";
+                }
+            case CDConvTypeGroup:
+                return self.name;
+            case CDConvTypeSystem: {
+                if (self.members.count !=1) {
+                    [NSException raise:NSInternalInconsistencyException format:@"请把系统对话关联的用户设为群成员"];
+                }
+                id <CDUserModel> other = [[CDChatManager manager].userDelegate getUserById:self.members[0]];
+                return other.username;
+            }
+        }
+    } else {
+        return @"对话";
     }
 }
 
+/// Pleae check self.members before calling it.
 - (NSString *)otherId {
     NSArray *members = self.members;
     if (members.count == 0) {
-        [NSException raise:@"invalid conv" format:nil];
+        [NSException raise:NSInternalInconsistencyException format:@"Invalid conv"];
     }
     if (members.count == 1) {
         return members[0];
@@ -79,12 +107,22 @@
     return otherId;
 }
 
+- (NSString *)systemUserId {
+    return self.members[0];
+}
+
 - (NSString *)title {
-    if (self.type == CDConvTypeSingle) {
-        return self.displayName;
-    }
-    else {
-        return [NSString stringWithFormat:@"%@(%ld)", self.displayName, (long)self.members.count];
+    if ([self hasValidType]) {
+        switch (self.type) {
+            case CDConvTypeSingle:
+                return self.displayName;
+            case CDConvTypeGroup:
+                return [NSString stringWithFormat:@"%@(%ld)", self.displayName, (long)self.members.count];
+            case CDConvTypeSystem:
+                return self.displayName;
+        }
+    } else {
+        return @"对话";
     }
 }
 

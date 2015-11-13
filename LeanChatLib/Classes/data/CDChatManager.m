@@ -517,10 +517,12 @@ static CDChatManager *instance;
             }
             if (conversation.type == CDConvTypeSingle) {
                 [userIds addObject:conversation.otherId];
-            } else {
+            } else if (conversation.type == CDConvTypeGroup){
                 if (conversation.lastMessage) {
                     [userIds addObject:conversation.lastMessage.clientId];
                 }
+            } else if (conversation.type == CDConvTypeSystem) {
+                [userIds addObject:conversation.systemUserId];
             }
             if (conversation.muted == NO) {
                 totalUnreadCount += conversation.unreadCount;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 LeanCloud. All rights reserved.
 //
 
-#import <AVOSCloud/AVOSCloud.h>
+#import "CDCommon.h"
 
 @interface CDAbuseReport : AVObject <AVSubclassing>
 

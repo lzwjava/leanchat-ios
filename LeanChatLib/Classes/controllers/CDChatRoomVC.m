@@ -401,10 +401,12 @@ static NSInteger const kOnePageSize = 10;
 #pragma mark - conversations store
 
 - (void)updateConversationAsRead {
-    [[CDConversationStore store] insertConversation:self.conv];
-    [[CDConversationStore store] updateUnreadCountToZeroWithConversation:self.conv];
-    [[CDConversationStore store] updateMentioned:NO conversation:self.conv];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCDNotificationUnreadsUpdated object:nil];
+    BOOL inserted = [[CDConversationStore store] insertConversation:self.conv];
+    if (inserted) {
+        [[CDConversationStore store] updateUnreadCountToZeroWithConversation:self.conv];
+        [[CDConversationStore store] updateMentioned:NO conversation:self.conv];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCDNotificationUnreadsUpdated object:nil];
+    }
 }
 
 #pragma mark - send message

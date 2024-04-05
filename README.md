@@ -6,82 +6,85 @@
 ![leanchat](https://cloud.githubusercontent.com/assets/5022872/8431636/4eff0aca-1f6d-11e5-8728-f8f450dac380.gif)
 
 ## App Store  
-LeanChat 已经在 App Store 上架，可前往 https://itunes.apple.com/gb/app/leanchat/id943324553 或在 App Store 上搜 LeanChat。
+LeanChat is available on the App Store. You can visit https://itunes.apple.com/gb/app/leanchat/id943324553 or search for LeanChat on the App Store.
 
-## 介绍
-这个示例项目全面展示了 LeanCloud 实时通讯功能的应用，但含杂着许多 UI 代码和其它功能，并不适合快速上手学习，如果你第一次接触 LeanMessage，更推荐 [LeanMessage-Demo](https://github.com/leancloud/LeanMessage-Demo) 项目。等熟悉了之后，可前往 [LeanCloud-Demos](https://github.com/leancloud/leancloud-demos) 挑选你喜欢的 IM 皮肤进行集成。集成的过程中，若遇到疑难问题，不妨再来参考 LeanChat 项目。
+## Introduction
+This example project comprehensively demonstrates the application of LeanCloud's real-time communication feature. However, it contains a lot of UI code and other functionalities, making it not suitable for quick learning. If you are new to LeanMessage, we recommend the [LeanMessage-Demo](https://github.com/leancloud/LeanMessage-Demo) project. Once you are familiar, you can go to [LeanCloud-Demos](https://github.com/leancloud/leancloud-demos) to select your favorite IM skin for integration. During integration, if you encounter difficult problems, you can refer back to the LeanChat project.
 
-## LeanChat 项目构成
+## LeanChat Project Structure
 
-* [leanchat-android](https://github.com/leancloud/leanchat-android)，Android 客户端
-* [leanchat-ios](https://github.com/leancloud/leanchat-ios)，iOS 客户端
-* [leanchat-webapp](https://github.com/leancloud/leanchat-webapp)，Web 客户端
-* [leanchat-cloud-code](https://github.com/leancloud/leanchat-cloudcode)，服务端
+* [leanchat-android](https://github.com/leancloud/leanchat-android): Android client
+* [leanchat-ios](https://github.com/leancloud/leanchat-ios): iOS client
+* [leanchat-webapp](https://github.com/leancloud/leanchat-webapp): Web client
+* [leanchat-cloud-code](https://github.com/leancloud/leanchat-cloudcode): Server-side
 
-## 宝贵意见
+## Valuable Feedback
 
-如果有任何问题，欢迎提 [issue](https://github.com/leancloud/leanchat-ios/issues)，写上你不明白的地方，看到后会尽快给予帮助。
+If you have any questions, feel free to raise an [issue](https://github.com/leancloud/leanchat-ios/issues), stating what you don't understand, and we'll provide assistance as soon as possible.
 
-## 下载
-请直接点击 Github 上的`Download Zip`，如图所示，这样只下载最新版。如果是 `git clone`，则可能非常慢，因为含杂很大的提交历史。某次测试两者是1.5M:40M。
+## Download
+Please directly click on `Download Zip` on Github as shown in the image below to download the latest version only. If you use `git clone`, it might be very slow because it includes a large commit history. In a test, the difference was 1.5M:40M.
 
 ![qq20150618-2 2x](https://cloud.githubusercontent.com/assets/5022872/8223520/4c25415a-15ab-11e5-912d-b5dab916ce86.png)
 
-## 运行
+## Running
 ```bash
-  // LeanChat (复杂例子)
+  // LeanChat (Complex Example)
   cd LeanChat
-  pod install --verbose  // 如果本地有 AVOSCloud 依赖库，可加选项 --no-repo-update 加快速度
+  pod install --verbose  // If you have AVOSCloud dependency library locally, you can add the --no-repo-update option to speed up the process
   open LeanChat.workspace
   
-  // LeanChatExample (简单例子)
+  // LeanChatExample (Simple Example)
   cd LeanChatExample
   pod install --verbose --no-repo-update
   open LeanChatExample.xcworkspace
 
-  // LeanChatSwift (Swift 例子)
+  // LeanChatSwift (Swift Example)
   cd LeanChatSwift
   pod install --verbose --no-repo-update
   open LeanChatSwift.xcworkspace
   
-  // LeanChatLib (封装了 LeanCloud 通信组件 和 UI 的库)
+  // LeanChatLib (Library encapsulating LeanCloud communication components and UI)
   cd LeanChatLib
   pod install --verbose --no-repo-update
   open LeanChatLib.xcworkspace
 ```
 
-若遇到`definition of 'AVUser' must be imported from module 'LeanChatLib.CDChatListVC' before it is required` 类似的问题，可在菜单 Product 按住 Option ，点击 [Clean Build Folder](http://stackoverflow.com/questions/8087065/xcode-4-clean-vs-clean-build-folder)，清空掉所有 Build 文件，重新编译即可。此问题似乎是 Cocoapods 在进行复杂编译的时候出现的Bug。具体可以看这个 [Gif](https://cloud.githubusercontent.com/assets/5022872/9230256/cf822fe4-4153-11e5-876d-ed819babad89.gif)。
+If you encounter issues like `definition of 'AVUser' must be imported from module 'LeanChatLib.CDChatListVC' before it is required`, you can hold Option in the Product menu and click on [Clean Build Folder](http://stackoverflow.com/questions/8087065/xcode-4-clean-vs-clean-build-folder) to clear all Build files, then recompile. This issue seems to be a bug when Cocoapods is performing complex compilation. You can see this [Gif](https://cloud.githubusercontent.com/assets/5022872/9230256/cf822fe4-4153-11e5-876d-ed819babad89.gif) for more details.
 
-请注意因为默认使用了生产证书，开发的时候，离线消息是没有推送的。而线上版本是有推送的，可到 [App Store](https://itunes.apple.com/gb/app/leanchat/id943324553 ) 上下载。具体也可参考这个 [issue](https://github.com/leancloud/leanchat-ios/issues/40)。
+Please note that because the default uses production certificates, there are no push notifications for offline messages during development. However, push notifications are available in the online version, which can be downloaded from the [App Store](https://itunes.apple.com/gb/app/leanchat/id943324553). For more details, you can also refer to this [issue](https://github.com/leancloud/leanchat-ios/issues/40).
 
-这里可以看到三个项目，介绍如下。
+Here you can see three projects, as described below.
 
-## 子项目介绍
-* LeanChatLib ，核心的聊天逻辑和聊天界面库。有了它，可以快速集成聊天功能，支持文字、音频、图片、表情消息，消息通知。同时也有相应的 [Android 版本](https://github.com/leancloud/leanchat-android)。
-* LeanChatExample，leanchatlib 最简单的使用例子。展示了如何用少量代码调用 LeanChatLib 来加入聊天，无论是用 LeanCloud 的用户系统还是自己的用户系统。
-* LeanChat-ios，为 LeanChat 整个应用。它包含好友管理、群组管理、地理消息、附近的人、个人页面、登录注册的功能，完全基于 LeanCloud 的存储和通信功能。它也是对 LeanChatLib 更复杂的应用。
+## Subproject Introduction
+* LeanChatLib: The core logic and UI library for chatting. With it, you can quickly integrate chat functionality, supporting text, audio, image, and emoji messages, as well as message notifications. There is also a corresponding [Android version](https://github.com/leancloud/leanchat-android).
+* LeanChatExample: The simplest usage example of LeanChatLib. It shows how to use a minimal amount of code to call LeanChatLib to join a chat, regardless of whether you use LeanCloud's user system or your own user system.
+* LeanChat-ios: The entire LeanChat application. It includes features such as friend management, group management, location-based messaging, nearby users, personal pages, login, and registration, all based on LeanCloud's storage and communication capabilities. It is a more complex application of LeanChatLib.
 
-## LeanChatLib 介绍
+## LeanChatLib Introduction
 
-封装了最近对话页面和聊天页面，LeanChat 和 LeanChatExample 项目都依赖于它。可通过以下方式安装，
+It encapsulates the recent conversation page and chat page. Both LeanChat and LeanChatExample projects depend on it. You can install it as follows,
+
 ```
     pod 'LeanChatLib'
 ```
 
-大多数时候，你会采用拖动源代码的方式集成 LeanChatLib，这时，先需要安装 `AVOSCloud.framework` 和 `AVOSCloudIM.framework`，如果不是用 `pod install 'AVOSCloud'`、`pod install 'AVOSCloudIM'` 来安装的话，则可根据LeanCloud [Quick Start Guide](https://leancloud.cn/docs/start.html) 配置一下 SDK 所需的Framework。同时安装另外两个依赖库`JSBadgeView` 与 `DateTools`。在` pod install ` 运行本 Demo 的时候，会有 Pods 目录生成，可以从中找到这两个Pods。或者网上搜索一下。另外可以通过 [.podspec 文件](https://github.com/leancloud/leanchat-ios/blob/master/LeanChatLib.podspec#L9)来配置，podspec 描述了需要集成哪些源文件、引入哪些系统 framework 等等。或请参考这个[工单](https://ticket.leancloud.cn/tickets/7666)。
+Most of the time, you will integrate LeanChatLib by dragging the source code into your project. In this case, you need to install `AVOSCloud.framework` and `AVOSCloudIM.framework` first. If you didn't use `pod install 'AVOSCloud'`, `pod install 'AVOSCloudIM'` to install, you can configure the required Frameworks according to the LeanCloud [Quick Start Guide](https://leancloud.cn/docs/start.html). Also, install two other dependent libraries `JSBadgeView` and `DateTools`. When running `pod install` for this Demo, a Pods directory will be generated, from which you can find these two Pods. Alternatively, you can search online. You can also configure it through the [.podspec file](https://github.com/leancloud/leanchat-ios/blob/master/LeanChatLib.podspec#L9), which describes which source files need to be integrated and which system frameworks need to be introduced, etc. Or, please refer to this [ticket](https://ticket.leancloud.cn/tickets/7666).
 
-## 如何三步加入IM
-1. LeanCloud 中创建应用       
-2. 加入 LeanChatLib 的 pod 依赖，或拖动 LeanChatLib 的代码文件进项目，改 UI 和调整功能方便些。
-3. 依次在合适的地方加入以下代码，
+## How to Add IM in Three Steps
+1. Create an application in LeanCloud.
+2. Add the LeanChatLib pod dependency, or drag the LeanChatLib code files into your project for easier UI customization and feature adjustment.
+3. Add the following code in
 
-应用启动后，初始化，以及配置 IM User
+ appropriate places,
+
+Upon application launch, initialize and configure IM User,
 ```objc
     [AVOSCloud setApplicationId:@"YourAppId" clientKey:@"YourAppKey"];
     [CDChatManager manager].userDelegate = [[CDUserFactory alloc] init];
 ```
 
-配置一个 UserFactory，遵守 CDUserDelegate协议即可。
+Configure a UserFactory, which conforms to the CDUserDelegate protocol.
 
 ```objc
 #import "CDUserFactory.h"
@@ -112,9 +115,9 @@ LeanChat 已经在 App Store 上架，可前往 https://itunes.apple.com/gb/app/
 
 ```
 
-这里的 CDUser 是应用内的User对象，你可以在你的User对象实现 CDUserModel 协议即可。
+Here, CDUser is the User object within the application, and you can implement the CDUserModel protocol in your User object.
 
-CDUserModel，
+CDUserModel,
 ```objc
 @protocol CDUserModel <NSObject>
 
@@ -129,7 +132,7 @@ CDUserModel，
 @end
 ```
 
-登录时调用，
+Call when logging in,
 ```objc
         [[CDChatManager manager] openWithClientId:selfId callback: ^(BOOL succeeded, NSError *error) {
             if (error) {
@@ -141,7 +144,7 @@ CDUserModel，
         }];
 ```
 
-和某人聊天，
+To chat with someone,
 ```objc
         [[CDChatManager manager] fetchConvWithOtherId : otherId callback : ^(AVIMConversation *conversation, NSError *error) {
             if (error) {
@@ -154,7 +157,7 @@ CDUserModel，
         }];
 ```
 
-和多人群聊，
+To group chat,
 ```objc
         NSMutableArray *memberIds = [NSMutableArray array];
         [memberIds addObject:groupId1];
@@ -171,77 +174,77 @@ CDUserModel，
         }];
 ```
 
-注销时，
+When logging out,
 ```objc
     [[CDChatManager manager] closeWithCallback: ^(BOOL succeeded, NSError *error) {
         
     }];
 ```
 
-然后，就可以像上面截图那样聊天了。注意，目前我们并不推荐直接用 pod 方式来引入 LeanChatLib ，因为有些界面和功能需要由你来定制，所以推荐将 LeanChatLib 的代码拷贝进项目，这样改起来方便一些。
+Then, you can chat as shown in the screenshot above. Note that we currently do not recommend using the pod method to import LeanChatLib directly because some interfaces and functionalities need to be customized by you. Therefore, we recommend copying the LeanChatLib code into the project for easier customization.
 
 ## LeanChatLib ChangeLog	
 
 0.2.6
 
-升级 SDK 至 3.1.4，适配 iOS 9
+Upgrade SDK to 3.1.4 to adapt to iOS 9
 
 0.2.5
 
-使用 AVIMConversationQuery 里的 cachePolicy，节省流量更好支持离线
-修复当对话不存在调用 fetchConvWithConvid  可能崩溃的 Bug
+Use cachePolicy in AVIMConversationQuery to save traffic and better support offline
+Fixed a bug where calling fetchConvWithConvid when the conversation does not exist may cause a crash
 
 0.2.4	
 
-增加兔斯基表情
+Added Tuzki emoji
 
 0.2.3
 
-增加 fetchConvWithMembers: 接口的参数检查、修复对话列表当是单聊对话但只有一个成员时可能出现的崩溃、
+Added parameter checking for the fetchConvWithMembers: interface, fixed a potential crash in the conversation list when it is a single chat but only has one member
 
 0.2.2
 
-AVOSCloud 库升级至 3.1.2.8
+Upgrade AVOSCloud library to 3.1.2.8
 
 0.2.1
 
-ChatListDelegate 增加 configureCell: 与 prepareConversaion: 接口，以便实现更复杂的对话定制。
+ChatListDelegate adds configureCell: and prepareConversaion: interfaces for more complex conversation customization.
 
-对于图像消息，使用 AVFile 来缓存图像，使得自己发送的照片不用重新下载。
+For image messages, use AVFile for caching images, so that your own sent photos do not need to be re-downloaded.
 
 0.2.0
 
-补充注释、支持重发消息、显示失败的消息、增加音效和振动
+Add comments, support message resend, display failed messages, add sound effects, and vibration
 
 0.1.3
 
-修复了快速下拉加载历史消息时崩溃的Bug
+Fixed a bug where the app might crash when loading historical messages quickly by pulling down
 
 0.1.2
 
-用了 SDK 的聊天缓存，去掉了 FMDB 依赖。可以看到服务器上的历史消息，重装后也可以看到历史聊天记录。去掉了 CDNotify 类。
+Using SDK's chat cache, removed FMDB dependency. You can see historical messages on the server and historical chat records even after reinstallation. Removed the CDNotify class.
 
 0.1.1
 
-重构
+Refactoring
 
 0.1.0
 
-发布
+Initial release
 
 
-## 部署 LeanChat 需知
+## Deployment Notes for LeanChat
 
-如果要部署完整的LeanChat的话，因为该应用有添加好友的功能，请在设置->应用选项中，勾选互相关注选项，以便一方同意的时候，能互相加好友。
+If you want to deploy the complete LeanChat, since the application has a friend adding feature, please go to Settings->Application Options and check the Mutual Follow option so that when one party agrees, they can add each other as friends.
 
 ![qq20150407-5](https://cloud.githubusercontent.com/assets/5022872/7016645/53f91bb8-dd1b-11e4-8ce0-72312c655094.png)
 
-## 开发指南
+## Development Guide
 
-[实时通信服务开发指南](https://leancloud.cn/docs/realtime_v2.html)
+[Realtime Messaging Service Development Guide](https://leancloud.cn/docs/realtime_v2.html)
 
-[更多介绍](https://github.com/leancloud/leanchat-android)
+[More Information](https://github.com/leancloud/leanchat-android)
 
-## 致谢
+## Acknowledgments
 
-感谢曾宪华大神的 [MessageDisplayKit](https://github.com/xhzengAIB/MessageDisplayKit) 开源库。
+Thanks to the great [MessageDisplayKit](https://github.com/xhzengAIB/MessageDisplayKit) open-source library by Xian-Hua Han.
